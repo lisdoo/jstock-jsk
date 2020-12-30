@@ -1,4 +1,4 @@
-package com.goldpac.instantissue.launcher.execution.businesscomponent;
+package com.goldpac.instantissue.launcher;
 
 import java.sql.*;
 import java.util.ArrayList;
