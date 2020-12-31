@@ -12,6 +12,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.StringTokenizer;
+
+import javafx.beans.InvalidationListener;
+import javafx.beans.value.ChangeListener;
 import js.test.Test;
 import minicardissue.com.goldpac.smallcardissue.ui.InterfaceData;
 import org.quartz.Job;
@@ -28,7 +31,32 @@ public class StartThreads implements Job {
     }
 
     public void execute(JobExecutionContext jec) throws JobExecutionException {
+        new javafx.beans.value.ObservableValue() {
+            @Override
+            public void addListener(InvalidationListener listener) {
 
+            }
+
+            @Override
+            public void removeListener(InvalidationListener listener) {
+
+            }
+
+            @Override
+            public void addListener(ChangeListener listener) {
+
+            }
+
+            @Override
+            public void removeListener(ChangeListener listener) {
+
+            }
+
+            @Override
+            public Object getValue() {
+                return null;
+            }
+        };
         try {
             M1 m1 = new M1();
             Properties properties = m1.getContext();
@@ -82,7 +110,7 @@ public class StartThreads implements Job {
                         RabbitTemplate rt = MqFactory.get(stockCode);
                     }
                 }
-
+                System.out.println("Created :" + stockList);
             }
 
         } catch (Exception var17) {

@@ -76,6 +76,10 @@ public class SimpleExample {
                     JdbcFactory.fillList();
                     JdbcFactory.release();
                     System.out.println("\t" + JdbcFactory.stockList);
+                } else if (input.equals("run")) {
+                    new StartThreads().execute(null);
+                } else if (input.equals("stop")) {
+                    new ShutdownThreads().execute(null);
                 } else {
                     if (input.equals("exit")) {
                         this.log.info("------- Shutting Down ---------------------");
@@ -91,6 +95,8 @@ public class SimpleExample {
                         System.out.println("\truntoday: fire a job immediately and just run one day.");
                         System.out.println("\tnotruntoday: not run today.");
                         System.out.println("\tliststocks: list stocks.");
+                        System.out.println("\trun: run.");
+                        System.out.println("\tstop: stop.");
                         System.out.println("\texit: exit.");
                         System.out.println("\thelp: help.");
                     } else {
