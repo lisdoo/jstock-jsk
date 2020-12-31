@@ -97,6 +97,5 @@ public class LoadStocksRunner implements Runnable {
 
             System.out.println("------------------------------");
         }
-
     }
 }
