@@ -5,6 +5,7 @@
 
 package org.quartz.examples.example1;
 
+import com.goldpac.instantissue.launcher.JdbcFactory;
 import com.goldpac.instantissue.launcher.ShutdownThreads;
 import com.goldpac.instantissue.launcher.StartThreads;
 import java.text.SimpleDateFormat;
@@ -31,15 +32,24 @@ public class SimpleExample {
     }
 
     public void run() throws Exception {
+
         this.log.info("------- Initializing -------------------");
         SchedulerFactory sf = new StdSchedulerFactory();
         Scheduler sched = sf.getScheduler();
         this.log.info("------- Initialization Complete --------");
+
         this.schedulingJobs(sched, StartThreads.class, "0 20 9 ? * MON-FRI", ShutdownThreads.class, "0 31 11 ? * MON-FRI");
         this.schedulingJobs(sched, StartThreads.class, "0 59 12 ? * MON-FRI", ShutdownThreads.class, "0 1 15 ? * MON-FRI");
         this.log.info("------- Starting Scheduler ----------------");
         sched.start();
         this.log.info("------- Started Scheduler -----------------");
+
+        this.log.info("------- get stock list ----------------");
+        JdbcFactory.get();
+        JdbcFactory.fillList();
+        JdbcFactory.release();
+        this.log.info("------- got stock list -----------------");
+
         this.log.info("------- Waiting input ------------");
         String input = null;
         Scanner sc = new Scanner(System.in);
@@ -61,6 +71,11 @@ public class SimpleExample {
                     formatterStart = new SimpleDateFormat("0 21 9 dd MM ?");
                     formatterEnd = new SimpleDateFormat("0 00 13 dd MM ?");
                     this.schedulingJobs(sched, ShutdownThreads.class, formatterStart.format(new Date()), ShutdownThreads.class, formatterEnd.format(new Date()));
+                } else if (input.equals("liststocks")) {
+                    JdbcFactory.get();
+                    JdbcFactory.fillList();
+                    JdbcFactory.release();
+                    System.out.println("\t" + JdbcFactory.stockList);
                 } else {
                     if (input.equals("exit")) {
                         this.log.info("------- Shutting Down ---------------------");
@@ -75,6 +90,7 @@ public class SimpleExample {
                     if (input.equals("help")) {
                         System.out.println("\truntoday: fire a job immediately and just run one day.");
                         System.out.println("\tnotruntoday: not run today.");
+                        System.out.println("\tliststocks: list stocks.");
                         System.out.println("\texit: exit.");
                         System.out.println("\thelp: help.");
                     } else {

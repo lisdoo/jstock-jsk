@@ -6,6 +6,7 @@
 package js.test;
 
 import _.test.Output;
+import com.goldpac.instantissue.launcher.JdbcFactory;
 import com.goldpac.instantissue.perso.InstantIssueTools;
 import inputdata.m1_0_1.M1;
 import java.io.File;
@@ -42,6 +43,11 @@ public class Test implements Job {
 
     public static void main(String[] args) throws Exception {
 //        getHadoopOutput();
+
+        JdbcFactory.get();
+        JdbcFactory.fillList();
+        JdbcFactory.release();
+
         get();
     }
 

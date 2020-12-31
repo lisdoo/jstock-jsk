@@ -19,6 +19,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 public class StartThreads implements Job {
     Logger log = LoggerFactory.getLogger(StartThreads.class);
@@ -27,6 +28,7 @@ public class StartThreads implements Job {
     }
 
     public void execute(JobExecutionContext jec) throws JobExecutionException {
+
         try {
             M1 m1 = new M1();
             Properties properties = m1.getContext();
@@ -63,7 +65,9 @@ public class StartThreads implements Job {
                 for(int var12 = 0; tokenizer.hasMoreTokens(); Test.stockColumns[var12++] = tokenizer.nextToken()) {
                 }
 
-                tempLocation = tempLocation.replaceFirst("stocksInWindFormat", new String(interfaceData.getProcessRecordData()));
+                String stockList = new String(interfaceData.getProcessRecordData());
+
+                tempLocation = tempLocation.replaceFirst("stocksInWindFormat", stockList);
                 String componentName = "BusinessComponent";
                 String businessName = "BusinessStocks";
                 String indentityName = null;
@@ -72,6 +76,13 @@ public class StartThreads implements Job {
                 indentityName = String.format("%04d", Integer.parseInt(interfaceData.getJobRecordId()));
                 this.log.info("play: " + componentName + businessName + indentityName + " [" + businessType + "] : " + tempLocation);
                 ThreadFactory.get().playScenario(componentName, businessName, indentityName, businessType, tempLocation);
+
+                for (String stockCode: stockList.split(",")) {
+                    if (JdbcFactory.stockList.contains(stockCode)) {
+                        RabbitTemplate rt = MqFactory.get(stockCode);
+                    }
+                }
+
             }
 
         } catch (Exception var17) {
