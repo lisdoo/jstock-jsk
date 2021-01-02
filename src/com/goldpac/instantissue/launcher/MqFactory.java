@@ -48,7 +48,7 @@ public class MqFactory {
             template.stop();
         }
         connectionFactory.destroy();
-        templates = null;
+        templates.clear();
         connectionFactory = null;
     }
 }

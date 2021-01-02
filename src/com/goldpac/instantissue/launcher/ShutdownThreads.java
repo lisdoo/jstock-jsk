@@ -19,6 +19,10 @@ public class ShutdownThreads implements Job {
 
     public void execute(JobExecutionContext jec) throws JobExecutionException {
         try {
+
+            /*
+             * 关闭机器人
+             */
             String[] scenraiosName = ThreadFactory.get().getScenarioNameList();
             this.log.info("shutdown: " + scenraiosName.length);
             String[] var3 = scenraiosName;
@@ -29,6 +33,16 @@ public class ShutdownThreads implements Job {
                 this.log.info("        : " + sn);
                 ThreadFactory.get().killSpecificScenario(sn);
             }
+
+            /*
+             * 关闭MQ
+             */
+            MqFactory.release();
+
+            /*
+             * 关闭数据库连接
+             */
+            JdbcFactory.release();
 
         } catch (Exception var7) {
             var7.printStackTrace();

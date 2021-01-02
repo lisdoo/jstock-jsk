@@ -13,8 +13,6 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.value.ChangeListener;
 import js.test.Test;
 import minicardissue.com.goldpac.smallcardissue.ui.InterfaceData;
 import org.quartz.Job;
