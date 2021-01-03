@@ -47,8 +47,12 @@ public class JdbcFactory {
     }
 
     public static void release() throws SQLException {
-        JdbcFactory.stat.close();
-        JdbcFactory.con.close();
+        if (stat != null) {
+            JdbcFactory.stat.close();
+        }
+        if (con != null) {
+            JdbcFactory.con.close();
+        }
         JdbcFactory.stat = null;
         JdbcFactory.con = null;
     }

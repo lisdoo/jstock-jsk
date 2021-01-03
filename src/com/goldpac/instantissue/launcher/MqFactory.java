@@ -47,7 +47,9 @@ public class MqFactory {
         for (RabbitTemplate template: templates.values()) {
             template.stop();
         }
-        connectionFactory.destroy();
+        if (connectionFactory != null) {
+            connectionFactory.destroy();
+        }
         templates.clear();
         connectionFactory = null;
     }
