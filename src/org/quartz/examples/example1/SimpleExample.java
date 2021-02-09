@@ -40,6 +40,7 @@ public class SimpleExample {
 
         this.schedulingJobs(sched, StartThreads.class, "0 20 9 ? * MON-FRI", ShutdownThreads.class, "0 31 11 ? * MON-FRI");
         this.schedulingJobs(sched, StartThreads.class, "0 59 12 ? * MON-FRI", ShutdownThreads.class, "0 1 15 ? * MON-FRI");
+        this.schedulingJobs(sched, LogThreads.class, "0 15 0 ? * *", LogThreads.class, "0 16 0 ? * *");
         this.log.info("------- Starting Scheduler ----------------");
         sched.start();
         this.log.info("------- Started Scheduler -----------------");

@@ -31,6 +31,10 @@ public class StartThreads implements Job {
     public void execute(JobExecutionContext jec) throws JobExecutionException {
 
         try {
+            JdbcFactory.get();
+            JdbcFactory.fillList();
+            JdbcFactory.release();
+
             M1 m1 = new M1();
             Properties properties = m1.getContext();
             File copy1 = new File("./stocksInWindFormat/stocks");
